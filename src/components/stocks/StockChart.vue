@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import {ref} from 'vue';
+import {Ref, ref, UnwrapRef, watch} from 'vue';
 
 import {
   CategoryScale,
@@ -17,8 +17,6 @@ import {Line} from 'vue-chartjs';
 import 'chartjs-adapter-date-fns';
 
 import type {DatePrice, Stock} from '@/types/stock';
-import {stocksSocket} from '@/services/gatewayController';
-import type {StockImprintWithDate} from '@/types/stockImprint';
 
 ChartJs.register(
     CategoryScale,
@@ -31,11 +29,7 @@ ChartJs.register(
     TimeScale,
 );
 
-const payload = defineProps<{ stock: Stock }>();
-// let stockImprint = ref({} as StockImprintWithDate);
-const stockImprint = ref({
-  date: '2021-09-01',
-} as StockImprintWithDate);
+const payload = defineProps<{ stock: Stock, date: string }>();
 
 let data = ref({} as any);
 const options = {
@@ -68,7 +62,7 @@ const plugins = [
   {
     id: 'tooltipVerticalLine',
     afterDraw: (chart: { tooltip?: any; scales?: any; ctx?: any }) => {
-      if (chart.tooltip._active && chart.tooltip._active.length) {
+      if (chart.tooltip && chart.tooltip._active && chart.tooltip._active.length) {
         // find coordinates of tooltip
         const activePoint = chart.tooltip._active[0];
         const {ctx} = chart;
@@ -92,13 +86,12 @@ const plugins = [
 
 updateData();
 
-stocksSocket.on('updateStock', (stock: StockImprintWithDate) => {
-  stockImprint.value = stock;
-  updateData();
+watch(() => payload.date, async () => {
+  await updateData();
 });
 
 async function updateData() {
-  const maxDateTime = new Date(stockImprint.value.date).getTime();
+  const maxDateTime = new Date(payload.date).getTime();
   const minDateTime = new Date(maxDateTime - 1000 * 60 * 60 * 24 * 365).getTime();
 
   const filteredPairs = payload.stock.prices
