@@ -20,14 +20,28 @@ import type {DatePrice, Stock} from '@/types/stock';
 import {stocksSocket} from '@/services/gatewayController';
 import type {StockImprintWithDate} from '@/types/stockImprint';
 
+ChartJs.register(
+    CategoryScale,
+    LinearScale,
+    LineElement,
+    PointElement,
+    Title,
+    Tooltip,
+    Legend,
+    TimeScale,
+);
+
 const payload = defineProps<{ stock: Stock }>();
 // let stockImprint = ref({} as StockImprintWithDate);
-let stockImprint = ref({
+const stockImprint = ref({
   date: '2021-09-01',
 } as StockImprintWithDate);
 
 let data = ref({} as any);
 const options = {
+  animation: {
+    duration: 0,
+  },
   responsive: true,
   plugins: {
     legend: {
@@ -83,18 +97,7 @@ stocksSocket.on('updateStock', (stock: StockImprintWithDate) => {
   updateData();
 });
 
-ChartJs.register(
-    CategoryScale,
-    LinearScale,
-    LineElement,
-    PointElement,
-    Title,
-    Tooltip,
-    Legend,
-    TimeScale,
-);
-
-function updateData() {
+async function updateData() {
   const maxDateTime = new Date(stockImprint.value.date).getTime();
   const minDateTime = new Date(maxDateTime - 1000 * 60 * 60 * 24 * 365).getTime();
 
