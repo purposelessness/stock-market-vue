@@ -1,6 +1,6 @@
 export interface StockImprintWithDate {
   date: string;
-  stockImprint: StockImprint | null;
+  stockImprint: StockImprint;
 }
 
 export interface StockImprint {

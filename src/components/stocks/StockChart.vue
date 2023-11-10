@@ -127,14 +127,10 @@ async function updateData() {
 
 <template>
 
-  <Line class="chart" :data="data" :options="options" :plugins="plugins"/>
+  <Line :data="data" :options="options" :plugins="plugins"/>
 
 </template>
 
 <style scoped>
-
-.chart {
-  width: 80vw;
-}
 
 </style>
