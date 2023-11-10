@@ -32,32 +32,7 @@ ChartJs.register(
 const payload = defineProps<{ stock: Stock, date: string }>();
 
 let data = ref({} as any);
-const options = {
-  animation: {
-    duration: 0,
-  },
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'bottom' as const,
-    },
-    title: {
-      display: true,
-      text: payload.stock.name,
-    },
-  },
-  scales: {
-    y: {
-      beginAtZero: true,
-    },
-    x: {
-      type: 'time' as const,
-      time: {
-        unit: 'day' as const,
-      },
-    },
-  },
-};
+const options = ref({} as any);
 const plugins = [
   {
     id: 'tooltipVerticalLine',
@@ -84,11 +59,45 @@ const plugins = [
   },
 ];
 
+updateOptions();
 updateData();
 
 watch(() => payload.date, async () => {
   await updateData();
 });
+watch(() => payload.stock, async () => {
+  await updateOptions();
+  await updateData();
+});
+
+async function updateOptions() {
+  options.value = {
+    animation: {
+      duration: 0,
+    },
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'bottom' as const,
+      },
+      title: {
+        display: true,
+        text: payload.stock.name,
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+      x: {
+        type: 'time' as const,
+        time: {
+          unit: 'day' as const,
+        },
+      },
+    },
+  }
+}
 
 async function updateData() {
   const maxDateTime = new Date(payload.date).getTime();
