@@ -4,7 +4,7 @@ import {onMounted, ref} from "vue";
 
 import {brokersSocket, stocksSocket} from "@/services/gatewayController";
 import type {Broker} from "@/types/broker";
-import BrokerCard from "@/components/brokers/BrockerCard.vue";
+import BrokerCard from "@/components/brokers/BrokerCard.vue";
 import type {StockImprintWithDate} from "@/types/stockImprint";
 
 const brokersRef = ref([] as Broker[]);
@@ -15,15 +15,22 @@ brokersSocket.emit('findAll', (brokers: Broker[]) => {
   brokersRef.value = brokers;
 });
 
+brokersSocket.on('updated', (broker: Broker) => {
+  const index = brokersRef.value.findIndex((b: Broker) => b.login === broker.login);
+  if (index !== -1) {
+    brokersRef.value[index] = broker;
+  } else {
+    brokersRef.value.push(broker);
+  }
+});
+
 stocksSocket.on('updateStock', (response: StockImprintWithDate) => {
   stockPricesRef.value[response.stockImprint.id] = response.stockImprint.price;
   dateRef.value = response.date;
-  console.log(response)
 });
 
 onMounted(() => {
   stocksSocket.emit('findAll');
-  console.log('findAll');
 });
 
 </script>

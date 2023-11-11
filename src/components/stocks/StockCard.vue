@@ -22,7 +22,7 @@ watch(() => payload.stock, () => {
     id: payload.stock.id,
     name: payload.stock.id,
     enabled: payload.stock.enabled,
-  } as StockImprint
+  } as StockImprint;
 });
 
 stocksSocket.on('updateStock', async (response: StockImprintWithDate) => {
@@ -38,21 +38,11 @@ stocksSocket.on('updateStock', async (response: StockImprintWithDate) => {
 
 <template>
 
-  <div class="stock-wrapper">
-    <stock-chart :stock="payload.stock" :date="dateRef"/>
-    <stock-summary :stock-imprint="stockImprintRef"/>
-  </div>
+  <stock-chart :stock="payload.stock" :date="dateRef"/>
+  <stock-summary :stock-imprint="stockImprintRef"/>
 
 </template>
 
 <style scoped>
-
-.stock-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-}
 
 </style>

@@ -15,7 +15,8 @@ function getProfit(priceBought: number, quantity: number, id: number): string {
   if (payload.stockPrices[id] === undefined) {
     return '?';
   }
-  return ((payload.stockPrices[id] - priceBought) * quantity).toFixed(2);
+  const profit: number = (payload.stockPrices[id] - priceBought) * quantity;
+  return profit > 0 ? `+${profit.toFixed(2)}` : profit.toFixed(2);
 }
 
 </script>
