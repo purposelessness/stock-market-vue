@@ -3,7 +3,8 @@
 import StockCard from '@/components/stocks/StockCard.vue';
 import type {Stock} from '@/types/stock';
 import {getStocks} from '@/services/httpController';
-import {ref, watch} from "vue";
+import {onMounted, ref, watch} from "vue";
+import {stocksSocket} from "@/services/gatewayController";
 
 const stocks = ref([] as Stock[]);
 const selectedStockName = ref(undefined);
@@ -23,6 +24,10 @@ watch(selectedStockName, () => {
 function getStockByName(name: string): Stock | undefined {
   return stocks.value.find((stock: Stock) => stock.name === name);
 }
+
+onMounted(() => {
+  stocksSocket.emit('findAll');
+});
 
 </script>
 

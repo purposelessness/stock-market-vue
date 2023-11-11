@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import {createRouter, createWebHistory} from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 
 const router = createRouter({
@@ -22,6 +22,16 @@ const router = createRouter({
       name: 'stocks',
       component: () => import('../views/StocksView.vue'),
     },
+    {
+      path: '/brokers',
+      name: 'brokers',
+      component: () => import('../views/BrokersView.vue'),
+    },
+    // {
+    //   path: '/brokers/:id',
+    //   name: 'broker',
+    //   component: () => import('../views/BrokerView.vue'),
+    // },
   ],
 });
 
