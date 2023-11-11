@@ -25,7 +25,7 @@ function getProfit(priceBought: number, quantity: number, id: number): string {
 
   <div class="broker-card">
     <h1>{{ payload.broker.login }}</h1>
-    <h2>Money: {{ payload.broker.money }}$</h2>
+    <h2>Money: {{ payload.broker.money.toFixed(2) }}$</h2>
 
     <h2>Stocks: <span v-if="payload.broker.actives.length === 0">None</span></h2>
     <div class="broker-stocks">
