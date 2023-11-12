@@ -94,8 +94,8 @@ function sell() {
     <div v-if="enabledBuy && selectedStock != null && selectedStock.enabled">
       <label for="quantity">Quantity: </label>
       <input id="quantity" type="number" v-model="quantity"/>
-      <button @click="buy">Buy</button>
-      <button @click="sell">Sell</button>
+      <button id="buyButton" @click="buy">Buy</button>
+      <button id="sellButton" @click="sell">Sell</button>
     </div>
   </div>
 

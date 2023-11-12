@@ -28,3 +28,6 @@ coverage
 *.sw?
 
 package-lock.json
+
+tests/venv/
+tests/__pycache__

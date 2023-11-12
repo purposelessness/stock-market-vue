@@ -9,7 +9,7 @@ const payload = defineProps<{ stockImprint: StockImprint }>();
 <template>
 
   <div class="stock-summary">
-    <p>Price: {{ payload.stockImprint.price ?? 'None' }}</p>
+    <p>Price: <span id="stockPrice">{{ payload.stockImprint.price ?? 'None' }}</span></p>
     <p>Quantity: {{ payload.stockImprint.quantity ?? 'None' }}</p>
   </div>
 

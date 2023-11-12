@@ -58,17 +58,18 @@ window.addEventListener('click', (event: any) => {
   <div class="register-form">
     <label for="login">Login: </label>
     <input id="login" type="text" v-model="loginRef"/>
-    <button @click="login">Login</button>
+    <button id="loginButton" @click="login">Login</button>
   </div>
 
   <div v-if="brokerRef">
     <div v-if="showPopup" class="popup">
       <div class="popup-content">
         <stocks-view :enabled-buy="true" :broker-id="brokerRef.id"/>
+        <button id="closePopupButton" @click="showPopup = false">Close</button>
       </div>
     </div>
     <broker-card v-if="brokerRef" :stock-prices="stockPricesRef" :broker="brokerRef"/>
-    <button @click="showPopup = !showPopup">Show popup</button>
+    <button id="showStocksButton" @click="showPopup = !showPopup">Show stocks</button>
   </div>
 
   <p v-else>Register first</p>
