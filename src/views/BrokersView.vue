@@ -24,6 +24,14 @@ brokersSocket.on('updated', (broker: Broker) => {
   }
 });
 
+brokersSocket.on('removed', (brokerId: number) => {
+  console.log('removed broker', brokerId);
+  const index = brokersRef.value.findIndex((b: Broker) => b.id === brokerId);
+  if (index !== -1) {
+    brokersRef.value.splice(index, 1);
+  }
+});
+
 stocksSocket.on('updateStock', (response: StockImprintWithDate) => {
   stockPricesRef.value[response.stockImprint.id] = response.stockImprint.price;
   dateRef.value = response.date;
